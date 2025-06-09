@@ -11,7 +11,7 @@ const TasksList = ({tasks, deleteTask}: TasksListPropsType) => {
         ? <span>Ваш список пуст</span>
         : <ul>
             {
-                tasks.map(t => <li><input type='checkbox' checked={t.isDone}/>
+                tasks.map(t => <li key={t.id}><input type='checkbox' checked={t.isDone}/>
                     <span>{t.title}</span>
                     <button onClick={() => deleteTask(t.id)}>x</button>
                 </li>)
