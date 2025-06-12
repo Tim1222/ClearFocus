@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from "react";
 
 type AddTaskFormPropsType = {
     createTask: (title: string) => void
@@ -8,6 +8,22 @@ export const AddtaskForm = ({createTask}: AddTaskFormPropsType) => {
 
     //const inputRef = useRef<HTMLInputElement>(null)
     const [taskInput, setTaskInput] = useState('')
+    const CreateTaskHandler = () => {
+        createTask(taskInput)
+        setTaskInput('')
+    }
+    const DisableBtn = !taskInput || taskInput.length > 10
+    const OnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskInput(e.currentTarget.value)
+        console.log(taskInput)
+    }
+    const OnKeyTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+
+        if (e.key === 'Enter' && !DisableBtn) {
+            CreateTaskHandler()
+        }
+
+    }
 
     return <div>
 
@@ -23,15 +39,12 @@ export const AddtaskForm = ({createTask}: AddTaskFormPropsType) => {
         <input
             placeholder={'Max title 10 element'}
             value={taskInput}
-            onChange={(e) => {
-            setTaskInput(e.currentTarget.value)
-            console.log(taskInput)}}/>
+            onKeyDown={OnKeyTaskHandler}
+            onChange={OnChangeHandler}/>
         <button
-            disabled={!taskInput || taskInput.length > 10}
-            onClick={() => {
-            createTask(taskInput)
-            setTaskInput('')
-        }}>+
+            disabled={DisableBtn}
+            onClick={CreateTaskHandler}>
+            +
         </button>
         {taskInput && <div>Max title 10 element</div>}
         {taskInput.length > 10 && <div style={{color: 'red'}}>Title is too long</div>}
