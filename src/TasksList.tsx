@@ -2,14 +2,14 @@ import {TaskType} from "./TodolistItem";
 
 type TasksListPropsType = {
     tasks: TaskType[]
-    deleteTask: (taskId: number) => void
+    deleteTask: (taskId: string) => void
 }
 
 const TasksList = ({tasks, deleteTask}: TasksListPropsType) => {
-
     const tasksList = tasks.length === 0
         ? <span>Ваш список пуст</span>
         : <ul>
+
             {
                 tasks.map(t => <li key={t.id}><input type='checkbox' checked={t.isDone}/>
                     <span>{t.title}</span>
