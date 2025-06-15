@@ -38,13 +38,20 @@ function App() {
     }
 
     const createTask = (title: string) => {
-        const newTask:  TaskType = {
+        const newTask: TaskType = {
             id: v1(),
             title,
             isDone: false
         }
         setTasks([...tasks, newTask])
+    }
 
+    const ChangeTaskStatus = (taskId: string) => {
+        setTasks(tasks.map(t => t.id === taskId
+            ? {...t, isDone: !t.isDone}
+            : t))
+
+        //setTasks(newState)
     }
 
     return (
@@ -54,7 +61,8 @@ function App() {
                 task={filteredTasks}
                 deleteTask={deleteTask}
                 changeTodolistFilter={changeTodolistFilter}
-                createTask={createTask}/>
+                createTask={createTask}
+                ChangeTaskStatus={ChangeTaskStatus}/>
         </div>
     )
 }
