@@ -11,12 +11,13 @@ const TasksList = ({tasks, deleteTask, ChangeTaskStatus}: TasksListPropsType) =>
 
 
     const tasksList = tasks.length === 0
-        ? <span>Ваш список пуст</span>
+        ? <span className={'taskList-span'}>Ваш список пуст</span>
         : <ul>
 
             {
                 tasks.map(t => {
                     const taskClass = t.isDone ? 'task-done' : 'task'
+
                     return (
                         <li key={t.id}><input
                             type='checkbox'

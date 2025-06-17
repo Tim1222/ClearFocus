@@ -32,7 +32,10 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
 
     return <div>
         <TodolistTitle title={title}/>
-        <AddtaskForm createTask={createTask}/>
+        <AddtaskForm
+            createTask={createTask}
+            maxTitleLengs={10}
+        />
         <TasksList
             tasks={task}
             deleteTask={deleteTask}
