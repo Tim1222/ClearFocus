@@ -1,8 +1,9 @@
-import {ChangeEvent, ChangeEventHandler, KeyboardEvent, use, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type AddTaskFormPropsType = {
     createTask: (title: string) => void
     maxTitleLengs: number
+
 }
 
 export const AddtaskForm = ({createTask, maxTitleLengs}: AddTaskFormPropsType) => {
@@ -14,7 +15,7 @@ export const AddtaskForm = ({createTask, maxTitleLengs}: AddTaskFormPropsType) =
 
     const CreateTaskHandler = () => {
         const trimmedTitle = taskInput.trim()
-        if(trimmedTitle) {
+        if (trimmedTitle) {
             createTask(trimmedTitle)
         } else {
             setError(true)

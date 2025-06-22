@@ -1,9 +1,13 @@
 type TodolistItemPropsType = {
     title: string
+    deleteTodolistCallback: () => void
 }
 
 export const TodolistTitle = (props: TodolistItemPropsType) => {
-    const {title} = props
+    const {title, deleteTodolistCallback} = props
 
-    return <h3>{title}</h3>
+    return <h3>
+        {title}
+        <button onClick={()=> deleteTodolistCallback()}>x</button>
+    </h3>
 }

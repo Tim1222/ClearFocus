@@ -5,13 +5,15 @@ import {FilterButtons} from "./FilterButtons";
 import {FilterType} from "./App";
 
 type TodolistItemPropsType = {
+    id: string
     title: string
     task: TaskType[]
-    deleteTask: (taskId: string) => void
-    changeTodolistFilter: (newFilterValue: FilterType) => void
-    createTask: (title: string) => void
-    ChangeTaskStatus: (title: string, isDone: boolean) => void
+    deleteTask: (taskId: string, todolistId: string) => void
+    changeTodolistFilter: (newFilterValue: FilterType, todolistId: string) => void
+    createTask: (title: string, todolistId: string) => void
+    changeTaskStatus: (title: string, isDone: boolean, todolistId: string) => void
     activeFilter: FilterType
+    deleteTodolist: (todolistId: string) => void
 }
 export type TaskType = {
     id: string
@@ -21,27 +23,32 @@ export type TaskType = {
 
 export const TodolistItem = (props: TodolistItemPropsType) => {
     const {
+        id,
         title,
         task,
         deleteTask,
         changeTodolistFilter,
         createTask,
-        ChangeTaskStatus,
+        changeTaskStatus,
         activeFilter,
+        deleteTodolist,
     } = props
 
     return <div>
-        <TodolistTitle title={title}/>
+        <TodolistTitle
+            title={title}
+            deleteTodolistCallback={() => deleteTodolist(id)}
+        />
         <AddtaskForm
-            createTask={createTask}
+            createTask={(title: string) => createTask(title, id)}
             maxTitleLengs={10}
         />
         <TasksList
             tasks={task}
-            deleteTask={deleteTask}
-            ChangeTaskStatus={ChangeTaskStatus}/>
+            deleteTask={(taskId: string) => deleteTask(taskId, id)}
+            changeTaskStatus={(taskId: string, isDone: boolean) => changeTaskStatus(taskId, isDone, id)}/>
         <FilterButtons
-            changeTodolistFilter={changeTodolistFilter}
+            changeTodolistFilter={(filter: FilterType) => changeTodolistFilter(filter, id)}
             activeFilter={activeFilter}/>
 
     </div>
