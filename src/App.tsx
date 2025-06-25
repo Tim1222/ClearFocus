@@ -80,10 +80,10 @@ function App() {
 
         let filteredTasks: TaskType[] = tasks[tl.id]
              if (tl.filter === 'active') {
-            filteredTasks = tasks[tl.id].filter(t => !t.isDone === false)
+            filteredTasks = tasks[tl.id].filter(t => !t.isDone)
         }
         if (tl.filter === 'completed') {
-            filteredTasks = tasks[tl.id].filter(t => t.isDone === true)
+            filteredTasks = tasks[tl.id].filter(t => t.isDone)
         }
 
         return (
