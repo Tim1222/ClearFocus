@@ -1,5 +1,5 @@
 import {TodolistTitle} from "./TodolistTitle";
-import {AddtaskForm} from "./AddtaskForm";
+import {AddItemForm} from "./AddItemForm.tsx";
 import TasksList from "./TasksList";
 import {FilterButtons} from "./FilterButtons";
 import {FilterType} from "./App";
@@ -39,8 +39,8 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
             title={title}
             deleteTodolistCallback={() => deleteTodolist(id)}
         />
-        <AddtaskForm
-            createTask={(title: string) => createTask(title, id)}
+        <AddItemForm
+            createItem={(title: string) => createTask(title, id)}
             maxTitleLengs={10}
         />
         <TasksList

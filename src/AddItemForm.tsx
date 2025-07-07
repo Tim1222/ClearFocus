@@ -1,37 +1,37 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 
-type AddTaskFormPropsType = {
-    createTask: (title: string) => void
+type AddItemFormPropsType = {
+    createItem: (title: string) => void
     maxTitleLengs: number
 
 }
 
-export const AddtaskForm = ({createTask, maxTitleLengs}: AddTaskFormPropsType) => {
+export const AddItemForm = ({createItem, maxTitleLengs}: AddItemFormPropsType) => {
 
     //const inputRef = useRef<HTMLInputElement>(null)
-    const [taskInput, setTaskInput] = useState('')
+    const [itemInput, setItemInput] = useState('')
     const [error, setError] = useState(false)
 
 
-    const CreateTaskHandler = () => {
-        const trimmedTitle = taskInput.trim()
+    const CreateItemHandler = () => {
+        const trimmedTitle = itemInput.trim()
         if (trimmedTitle) {
-            createTask(trimmedTitle)
+            createItem(trimmedTitle)
         } else {
             setError(true)
         }
-        setTaskInput('')
+        setItemInput('')
     }
-    const DisableBtn = !taskInput || taskInput.length > maxTitleLengs
+    const DisableBtn = !itemInput || itemInput.length > maxTitleLengs
     const OnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(false)
-        setTaskInput(e.currentTarget.value)
-        //console.log(taskInput)
+        setItemInput(e.currentTarget.value)
+        //console.log(itemInput)
     }
     const OnKeyTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
 
         if (e.key === 'Enter' && !DisableBtn) {
-            CreateTaskHandler()
+            CreateItemHandler()
         }
 
     }
@@ -49,18 +49,18 @@ export const AddtaskForm = ({createTask, maxTitleLengs}: AddTaskFormPropsType) =
         {/*</button>*/}
         <input
             placeholder={`Max title ${maxTitleLengs} element`}
-            value={taskInput}
+            value={itemInput}
             onKeyDown={OnKeyTaskHandler}
             onChange={OnChangeHandler}
             className={error ? 'error' : ''}/>
         <button
             disabled={DisableBtn}
-            onClick={CreateTaskHandler}>
+            onClick={CreateItemHandler}>
             +
         </button>
 
-        {taskInput && <div>{`Max title ${maxTitleLengs} element`}</div>}
-        {taskInput.length > 10 && <div style={{color: 'red'}}>Title is too long</div>}
+        {itemInput && <div>{`Max title ${maxTitleLengs} element`}</div>}
+        {itemInput.length > 10 && <div style={{color: 'red'}}>Title is too long</div>}
         {error && <div style={{color: 'red'}}>Enter valid title</div>}
 
     </div>
