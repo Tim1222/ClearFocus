@@ -41,10 +41,9 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
     return <div>
         <TodolistTitle
             title={title}
-            todolistId={id}
             deleteTodolistCallback={() => deleteTodolist(id)}
-            changeTodolistTitle={(newTitle: string, todolistId: string)=>{
-                changeTodolistTitle(newTitle,  todolistId)
+            changeTodolistTitle={(newTitle: string)=>{
+                changeTodolistTitle(newTitle, id)
             }}
         />
         <AddItemForm
