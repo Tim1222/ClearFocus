@@ -1,12 +1,19 @@
 import {TaskType} from "./TodolistItem";
+import {EditableSpan} from "./EditableSpan.tsx";
 
 type TasksListPropsType = {
     tasks: TaskType[]
     deleteTask: (taskId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
+    changeTasksTitle: (taskId: string, title: string) => void
 }
 
-const TasksList = ({tasks, deleteTask, changeTaskStatus}: TasksListPropsType) => {
+const TasksList = ({
+                       tasks,
+                       deleteTask,
+                       changeTaskStatus,
+                       changeTasksTitle
+                   }: TasksListPropsType) => {
 
 
     const tasksList = tasks.length === 0
@@ -24,7 +31,12 @@ const TasksList = ({tasks, deleteTask, changeTaskStatus}: TasksListPropsType) =>
                                 checked={t.isDone}
                                 onClick={(e) => changeTaskStatus(t.id, e.currentTarget.checked)}
                             />
-                            <span className={taskClass}>{t.title}</span>
+                            {/*<span className={taskClass}>{t.title}</span>*/}
+                            <EditableSpan
+                                classes={taskClass}
+                                title={t.title}
+                                changeTitleCallback={(title: string) => changeTasksTitle(t.id, title)}
+                            />
                             <button onClick={() => deleteTask(t.id)}>x</button>
                         </li>)
 

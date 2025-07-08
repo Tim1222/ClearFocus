@@ -38,15 +38,6 @@ export const AddItemForm = ({createItem, maxTitleLengs}: AddItemFormPropsType) =
 
     return <div>
 
-        {/*<input ref={inputRef}/>*/}
-        {/*<button onClick={() => {*/}
-        {/*    if (*/}
-        {/*        inputRef.current) {*/}
-        {/*        createTask(inputRef.current.value)*/}
-        {/*        inputRef.current.value = ''*/}
-        {/*    }*/}
-        {/*}}>+*/}
-        {/*</button>*/}
         <input
             placeholder={`Max title ${maxTitleLengs} element`}
             value={itemInput}
@@ -60,7 +51,7 @@ export const AddItemForm = ({createItem, maxTitleLengs}: AddItemFormPropsType) =
         </button>
 
         {itemInput && <div>{`Max title ${maxTitleLengs} element`}</div>}
-        {itemInput.length > 10 && <div style={{color: 'red'}}>Title is too long</div>}
+        {itemInput.length > maxTitleLengs && <div style={{color: 'red'}}>Title is too long</div>}
         {error && <div style={{color: 'red'}}>Enter valid title</div>}
 
     </div>

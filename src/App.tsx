@@ -64,8 +64,10 @@ function App() {
 
         //setTasks(newState)
     }
-    const changeTasksTitle = () => {
-
+    const changeTasksTitle = (taskId: string, newTitle: string, todolistId: string) => {
+        setTasks({
+            ...tasks, [todolistId]: [...tasks[todolistId].map(t => t.id === taskId ? {...t, title: newTitle} : t)]
+        })
     }
 
     const changeTodolistFilter = (newFilterValue: FilterType, todolistId: string) => {
@@ -77,12 +79,12 @@ function App() {
     }
     const createTodolisis = (title: string) => {
         const newTodolistId = v1()
-        setTodolists([{id: newTodolistId, title, filter: 'all'}, ...todolists ])
+        setTodolists([{id: newTodolistId, title, filter: 'all'}, ...todolists])
         setTasks({...tasks, [newTodolistId]: []})
     }
-    const changeTodolistTitle = () => {
-
-    }
+    // const changeTodolistTitle = (newTitle: string, todolistId: string) => {
+    //     setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: newTitle} : tl))
+    // }
 
     const todolistComponents = todolists.map(tl => {
 
@@ -101,21 +103,23 @@ function App() {
                 title={tl.title}
                 activeFilter={tl.filter}
                 task={filteredTasks}
+                changeTasksTitle={changeTasksTitle}
 
                 deleteTask={deleteTask}
                 changeTodolistFilter={changeTodolistFilter}
                 createTask={createTask}
                 changeTaskStatus={changeTaskStatus}
                 deleteTodolist={deleteTodolist}
+               // changeTodolistTitle={changeTodolistTitle}
             />
         )
     })
 
     return (
         <div className="app">
-            <AddItemForm createItem={(title: string) => {
-                createTodolisis(title)
-            }} maxTitleLengs={10}/>
+            <AddItemForm
+                createItem={createTodolisis}
+                maxTitleLengs={15}/>
             {todolistComponents}
         </div>
     )
