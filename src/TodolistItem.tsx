@@ -15,7 +15,7 @@ type TodolistItemPropsType = {
     activeFilter: FilterType
     deleteTodolist: (todolistId: string) => void
     changeTasksTitle: (taskId: string, title: string, todolistId: string) => void
-    //changeTodolistTitle: (newTitle: string, todolistId: string) => void
+    changeTodolistTitle: (newTitle: string, todolistId: string) => void
 }
 export type TaskType = {
     id: string
@@ -35,13 +35,17 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
         activeFilter,
         deleteTodolist,
         changeTasksTitle,
-        // changeTodolistTitle
+        changeTodolistTitle
     } = props
 
     return <div>
         <TodolistTitle
             title={title}
+            todolistId={id}
             deleteTodolistCallback={() => deleteTodolist(id)}
+            changeTodolistTitle={(newTitle: string, todolistId: string)=>{
+                changeTodolistTitle(newTitle,  todolistId)
+            }}
         />
         <AddItemForm
             createItem={(title: string) => createTask(title, id)}

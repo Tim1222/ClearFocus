@@ -2,7 +2,7 @@ import {ChangeEvent, useState} from "react";
 
 type EditableSpanType = {
     title: string
-    classes: string
+    classes?: string
     changeTitleCallback: (title: string) => void
 }
 
