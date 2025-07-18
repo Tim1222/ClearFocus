@@ -1,5 +1,11 @@
 import {TaskType} from "./TodolistItem";
 import {EditableSpan} from "./EditableSpan.tsx";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import {IconButton} from "@mui/material";
+import Checkbox from '@mui/material/Checkbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+
 
 type TasksListPropsType = {
     tasks: TaskType[]
@@ -18,18 +24,19 @@ const TasksList = ({
 
     const tasksList = tasks.length === 0
         ? <span className={'taskList-span'}>Ваш список пуст</span>
-        : <ul>
+        : <List disablePadding>
 
             {
                 tasks.map(t => {
                     const taskClass = t.isDone ? 'task-done' : 'task'
 
                     return (
-                        <li key={t.id}>
-                            <input
-                                type='checkbox'
+                        <ListItem key={t.id} disablePadding>
+                            <Checkbox
+                                size='small'
+                                color='secondary'
                                 checked={t.isDone}
-                                onClick={(e) => changeTaskStatus(t.id, e.currentTarget.checked)}
+                                onChange={(e) => changeTaskStatus(t.id, e.currentTarget.checked)}
                             />
                             {/*<span className={taskClass}>{t.title}</span>*/}
                             <EditableSpan
@@ -37,12 +44,16 @@ const TasksList = ({
                                 title={t.title}
                                 changeTitleCallback={(title: string) => changeTasksTitle(t.id, title)}
                             />
-                            <button onClick={() => deleteTask(t.id)}>x</button>
-                        </li>)
+                            <IconButton
+                                size='small'
+                                onClick={() => deleteTask(t.id)}>
+                                <HighlightOffIcon/>
+                            </IconButton>
+                        </ListItem>)
 
                 })
             }
-        </ul>
+        </List>
 
 
     return (

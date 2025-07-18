@@ -1,4 +1,6 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import {IconButton, TextField} from "@mui/material";
 
 type AddItemFormPropsType = {
     createItem: (title: string) => void
@@ -26,7 +28,6 @@ export const AddItemForm = ({createItem, maxTitleLengs}: AddItemFormPropsType) =
     const OnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(false)
         setItemInput(e.currentTarget.value)
-        //console.log(itemInput)
     }
     const OnKeyTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
 
@@ -38,21 +39,23 @@ export const AddItemForm = ({createItem, maxTitleLengs}: AddItemFormPropsType) =
 
     return <div>
 
-        <input
+        <TextField
+            variant='outlined'
+            size="small"
             placeholder={`Max title ${maxTitleLengs} element`}
             value={itemInput}
             onKeyDown={OnKeyTaskHandler}
             onChange={OnChangeHandler}
-            className={error ? 'error' : ''}/>
-        <button
+            error={error}
+            helperText={error && 'Enter valid title'}/>
+        <IconButton
             disabled={DisableBtn}
             onClick={CreateItemHandler}>
-            +
-        </button>
+            <ControlPointIcon/>
+        </IconButton>
 
         {itemInput && <div>{`Max title ${maxTitleLengs} element`}</div>}
         {itemInput.length > maxTitleLengs && <div style={{color: 'red'}}>Title is too long</div>}
-        {error && <div style={{color: 'red'}}>Enter valid title</div>}
 
     </div>
 }

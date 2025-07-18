@@ -1,4 +1,5 @@
 import {FilterType} from "./App";
+import {Button} from "@mui/material";
 
 type FilterButtonsPropsType = {
     changeTodolistFilter: (newFilterValue: FilterType) => void
@@ -7,14 +8,23 @@ type FilterButtonsPropsType = {
 
 export const FilterButtons = ({changeTodolistFilter, activeFilter}: FilterButtonsPropsType) => {
     return <div>
-        <button className={activeFilter === 'all' ? 'btn-filter-active' : ''}
-                onClick={() => changeTodolistFilter('all')}>All
-        </button>
-        <button className={activeFilter === 'active' ? 'btn-filter-active' : ''}
-                onClick={() => changeTodolistFilter('active')}>Active
-        </button>
-        <button className={activeFilter === 'completed' ? 'btn-filter-active' : ''}
-                onClick={() => changeTodolistFilter('completed')}>Completed
-        </button>
+        <Button color={activeFilter === 'all' ? 'secondary' : 'primary'}
+                onClick={() => changeTodolistFilter('all')}
+                variant='contained'
+                size='small'
+                disableElevation
+        >All</Button>
+        <Button color={activeFilter === 'active' ? 'secondary' : 'primary'}
+                onClick={() => changeTodolistFilter('active')}
+                variant='contained'
+                size='small'
+                disableElevation
+        >Active</Button>
+        <Button color={activeFilter === 'completed' ? 'secondary' : 'primary'}
+                onClick={() => changeTodolistFilter('completed')}
+                variant='contained'
+                size='small'
+                disableElevation
+        >Completed</Button>
     </div>
 }
