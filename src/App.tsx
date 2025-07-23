@@ -5,11 +5,13 @@ import {v1} from "uuid";
 import {AddItemForm} from "./Components/AddItemForm.tsx";
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
-import {Box, Container, Grid, Paper} from '@mui/material';
+import {Box, Container, CssBaseline, Grid, Paper, Switch} from '@mui/material';
 import {boxSx} from "./styles/Todo.styles.tsx";
+import {NavButton} from "./Components/NavButton.tsx";
+import {createTheme, ThemeProvider} from '@mui/material/styles'
+import {amber, green} from "@mui/material/colors";
 
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -48,6 +50,7 @@ function App() {
             {id: v1(), title: 'Water', isDone: true},
             {id: v1(), title: 'Bread', isDone: true},
             {id: v1(), title: 'Milk', isDone: false},
+            {id: v1(), title: 'Meat', isDone: false},
         ]
     })
 
@@ -125,30 +128,47 @@ function App() {
             </Grid>
         )
     })
+    const [isLight, setIsLigt] = useState(true)
+    const myTheme = createTheme({
+        palette: {
+            primary: green,
+            secondary: amber,
+            mode: isLight ? 'light' : 'dark'
+        },
+    })
+
 
     return (
         <div className="app">
-            <AppBar position="static">
-                <Toolbar>
-                    <Box sx={boxSx}>
-                        <IconButton color="inherit">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Button color="inherit">Sign in</Button>
-                    </Box>
-                </Toolbar>
-            </AppBar>
+            <ThemeProvider theme={myTheme}>
+                <CssBaseline/>
+                <AppBar position='static'>
+                    <Toolbar>
+                        <Box sx={boxSx}>
+                            <IconButton color="inherit">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Box>
+                                <Switch onChange={()=> setIsLigt(!isLight)}/>
+                                <NavButton>Sign in</NavButton>
+                                <NavButton>Sign out</NavButton>
+                                <NavButton background={myTheme.palette.primary.light}>FAQ</NavButton>
+                            </Box>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
 
-            <Container maxWidth='lg'>
-                <Grid container sx={{padding: '15px 0'}}>
-                    <AddItemForm
-                        createItem={createTodolisis}
-                        maxTitleLengs={15}/>
-                </Grid>
-                <Grid container spacing={2} rowSpacing={2}>
-                    {todolistComponents}
-                </Grid>
-            </Container>
+                <Container maxWidth='lg'>
+                    <Grid container sx={{padding: '15px 0'}}>
+                        <AddItemForm
+                            createItem={createTodolisis}
+                            maxTitleLengs={15}/>
+                    </Grid>
+                    <Grid container spacing={2} rowSpacing={2}>
+                        {todolistComponents}
+                    </Grid>
+                </Container>
+            </ThemeProvider>
         </div>
     )
 }
