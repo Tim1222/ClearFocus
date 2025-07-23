@@ -1,8 +1,15 @@
-import './App.css'
-import {TodolistItem} from "./TodolistItem";
+import './styles/App.css'
+import {TodolistItem} from "./Components/TodolistItem.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
-import {AddItemForm} from "./AddItemForm.tsx";
+import {AddItemForm} from "./Components/AddItemForm.tsx";
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import {Box, Container, Grid, Paper} from '@mui/material';
+import {boxSx} from "./styles/Todo.styles.tsx";
 
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -97,30 +104,51 @@ function App() {
         }
 
         return (
-            <TodolistItem
-                key={tl.id}
-                id={tl.id}
-                title={tl.title}
-                activeFilter={tl.filter}
-                task={filteredTasks}
-                changeTasksTitle={changeTasksTitle}
+            <Grid key={tl.id}>
+                <Paper elevation={8}>
+                    <TodolistItem
+                        key={tl.id}
+                        id={tl.id}
+                        title={tl.title}
+                        activeFilter={tl.filter}
+                        task={filteredTasks}
+                        changeTasksTitle={changeTasksTitle}
 
-                deleteTask={deleteTask}
-                changeTodolistFilter={changeTodolistFilter}
-                createTask={createTask}
-                changeTaskStatus={changeTaskStatus}
-                deleteTodolist={deleteTodolist}
-                changeTodolistTitle={changeTodolistTitle}
-            />
+                        deleteTask={deleteTask}
+                        changeTodolistFilter={changeTodolistFilter}
+                        createTask={createTask}
+                        changeTaskStatus={changeTaskStatus}
+                        deleteTodolist={deleteTodolist}
+                        changeTodolistTitle={changeTodolistTitle}
+                    />
+                </Paper>
+            </Grid>
         )
     })
 
     return (
         <div className="app">
-            <AddItemForm
-                createItem={createTodolisis}
-                maxTitleLengs={15}/>
-            {todolistComponents}
+            <AppBar position="static">
+                <Toolbar>
+                    <Box sx={boxSx}>
+                        <IconButton color="inherit">
+                            <MenuIcon/>
+                        </IconButton>
+                        <Button color="inherit">Sign in</Button>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+
+            <Container maxWidth='lg'>
+                <Grid container sx={{padding: '15px 0'}}>
+                    <AddItemForm
+                        createItem={createTodolisis}
+                        maxTitleLengs={15}/>
+                </Grid>
+                <Grid container spacing={2} rowSpacing={2}>
+                    {todolistComponents}
+                </Grid>
+            </Container>
         </div>
     )
 }

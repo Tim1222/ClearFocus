@@ -1,8 +1,8 @@
-import {TodolistTitle} from "./TodolistTitle";
+import {TodolistTitle} from "./TodolistTitle.tsx";
 import {AddItemForm} from "./AddItemForm.tsx";
-import TasksList from "./TasksList";
-import {FilterButtons} from "./FilterButtons";
-import {FilterType} from "./App";
+import TasksList from "./TasksList.tsx";
+import {FilterButtons} from "./FilterButtons.tsx";
+import {FilterType} from "../App.tsx";
 
 type TodolistItemPropsType = {
     id: string
@@ -38,7 +38,7 @@ export const TodolistItem = (props: TodolistItemPropsType) => {
         changeTodolistTitle
     } = props
 
-    return <div>
+    return <div className='todolist'>
         <TodolistTitle
             title={title}
             deleteTodolistCallback={() => deleteTodolist(id)}
