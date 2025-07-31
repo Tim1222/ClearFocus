@@ -1,6 +1,6 @@
 import './styles/App.css'
 import {TodolistItem} from "./Components/TodolistItem.tsx";
-import {useState} from "react";
+import {useReducer, useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./Components/AddItemForm.tsx";
 import AppBar from '@mui/material/AppBar'
@@ -12,7 +12,16 @@ import {boxSx} from "./styles/Todo.styles.tsx";
 import {NavButton} from "./Components/NavButton.tsx";
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import {amber, green} from "@mui/material/colors";
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    createTodolistAC,
+    deleteTodolistAC,
+    todolistsReducer
+} from "./model/todolists-reducer.ts";
 
+const todolistId_1: string = v1()
+const todolistId_2: string = v1()
 
 export type FilterType = 'all' | 'active' | 'completed'
 export type TodolistType = {
@@ -20,9 +29,6 @@ export type TodolistType = {
     title: string
     filter: FilterType
 }
-const todolistId_1: string = v1()
-const todolistId_2: string = v1()
-
 export type TaskStateType = {
     [todolistId: string]: TaskType[]
 }
@@ -34,7 +40,12 @@ export type TaskType = {
 
 function App() {
 
-    const [todolists, setTodolists] = useState<TodolistType[]>([
+    // const [todolists, setTodolists] = useState<TodolistType[]>([
+    //     {id: todolistId_1, title: 'What to learn', filter: 'all'},
+    //     {id: todolistId_2, title: 'What to Buy', filter: 'all'},
+    // ])
+
+    const [todolists, dispatchTodolists] = useReducer(todolistsReducer, [
         {id: todolistId_1, title: 'What to learn', filter: 'all'},
         {id: todolistId_2, title: 'What to Buy', filter: 'all'},
     ])
@@ -54,7 +65,7 @@ function App() {
         ]
     })
 
-
+    //tasks CRUD
     const deleteTask = (taskId: string, todolistId: string) => {
         // const todolistTasks: TaskType[] = tasks[todolistId]
         // const filteredTasks: TaskType[] = todolistTasks.filter(t => t.id !== taskId)
@@ -80,24 +91,28 @@ function App() {
         })
     }
 
+    //todolist CRUD
     const changeTodolistFilter = (newFilterValue: FilterType, todolistId: string) => {
-        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter: newFilterValue} : tl))
+        const action = changeTodolistFilterAC({id: todolistId, filter: newFilterValue })
+        dispatchTodolists(action)
     }
     const deleteTodolist = (todolistId: string) => {
-        setTodolists(todolists.filter(tl => tl.id !== todolistId))
+        const action = deleteTodolistAC(todolistId)
+        dispatchTodolists(action)
         delete tasks[todolistId]
     }
     const createTodolisis = (title: string) => {
-        const newTodolistId = v1()
-        setTodolists([{id: newTodolistId, title, filter: 'all'}, ...todolists])
-        setTasks({...tasks, [newTodolistId]: []})
+      const action = createTodolistAC(title)
+        dispatchTodolists(action)
+        setTasks({...tasks, [action.payload.id]: []})
     }
     const changeTodolistTitle = (newTitle: string, todolistId: string) => {
-        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: newTitle} : tl))
+        const action = changeTodolistTitleAC({title: newTitle, id: todolistId})
+        dispatchTodolists(action)
     }
 
-    const todolistComponents = todolists.map(tl => {
 
+    const todolistComponents = todolists.map(tl => {
         let filteredTasks: TaskType[] = tasks[tl.id]
         if (tl.filter === 'active') {
             filteredTasks = tasks[tl.id].filter(t => !t.isDone)
@@ -149,7 +164,7 @@ function App() {
                                 <MenuIcon/>
                             </IconButton>
                             <Box>
-                                <Switch onChange={()=> setIsLigt(!isLight)}/>
+                                <Switch onChange={() => setIsLigt(!isLight)}/>
                                 <NavButton>Sign in</NavButton>
                                 <NavButton>Sign out</NavButton>
                                 <NavButton background={myTheme.palette.primary.light}>FAQ</NavButton>
